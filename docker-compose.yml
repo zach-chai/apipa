@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/opt/app'
+      - gem_cache:/usr/local/bundle
+    environment:
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - '4567:4567'
+    depends_on: [ redis ]
+    command: ruby app.rb
+
+  redis:
+    image: redis:4.0
+
+volumes:
+  gem_cache:
+    driver: local
