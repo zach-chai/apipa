@@ -1,17 +1,3 @@
-require 'sinatra'
-require 'ohm'
-
-class Message < Ohm::Model
-  attribute :message
-  attribute :palindrome
-
-  def to_json
-    { message: message, palindrome: palindrome }
-  end
-end
-
-set :bind, '0.0.0.0'
-
 get '/' do
   'Hello world!'
 end
