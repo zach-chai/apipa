@@ -1,4 +1,5 @@
 class Message < Ohm::Model
   attribute :content
-  attribute :palindrome
+  attribute :is_palindrome
+  index :is_palindrome
 end

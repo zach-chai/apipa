@@ -5,6 +5,7 @@ GEM
     daemons (1.2.6)
     eventmachine (1.2.7)
     hiredis (0.6.1)
+    minitest (5.11.3)
     mustermann (1.0.3)
     nest (3.1.1)
       redic
@@ -15,9 +16,10 @@ GEM
     rack (2.0.5)
     rack-protection (2.0.4)
       rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
     redic (1.5.0)
       hiredis
-    redis (4.0.2)
     sinatra (2.0.4)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -37,8 +39,9 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  minitest
   ohm
-  redis
+  rack-test
   sinatra
   thin
   yajl-ruby

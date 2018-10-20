@@ -9,17 +9,14 @@ end
 
 get '/messages/:id' do
   message = Message[params[:id]]
-  if message
-    yajl :message, locals: { message: message }
-  else
-    halt 404
-  end
+  halt 404 if message.nil?
+  yajl :message, locals: { message: message }
 end
 
 post '/messages' do
   request.body.rewind
-  data = JSON.parse request.body.read
-  content = data['content']
+  body = JSON.parse request.body.read
+  content = body['data']['attributes']['content']
 
   message = Message.create content: content
 

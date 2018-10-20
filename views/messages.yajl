@@ -5,7 +5,7 @@ messages.each do |message|
     id: message.id.to_i,
     attributes: {
       content: message.content,
-      is_palindrome: message.is_palindrome
+      is_palindrome: message.is_palindrome == 'true'
     }
   }
 end
