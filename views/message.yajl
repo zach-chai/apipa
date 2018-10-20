@@ -1,0 +1,10 @@
+json = {
+  data: {
+    type: 'messages',
+    id: message.id.to_i,
+    attributes: {
+      content: message.content,
+      is_palindrome: message.is_palindrome
+    }
+  }
+}

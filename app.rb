@@ -4,20 +4,25 @@ end
 
 get '/messages' do
   messages = Message.all.sort order: 'ASC', limit: [0, 10]
-  messages.map(&:to_json)
+  yajl :messages, locals: { messages: messages }
 end
 
 get '/messages/:id' do
   message = Message[params[:id]]
-  message.to_json
+  if message
+    yajl :message, locals: { message: message }
+  else
+    halt 404
+  end
 end
 
 post '/messages' do
-  request.body.rewind # Maybe not required
+  request.body.rewind
   data = JSON.parse request.body.read
+  content = data['content']
 
   message = Message.create content: content
 
   status 201
-  message.to_json
+  yajl :message, locals: { message: message }
 end
