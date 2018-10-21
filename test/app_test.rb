@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AppTest < ApplicationTest
 
-  # GET /messages/:id tests
+  # Start GET /messages/:id tests
   def test_get_existing_message_id
     id = 1
     get "/messages/#{id}"
@@ -19,8 +19,9 @@ class AppTest < ApplicationTest
     get "/messages/#{id}"
     assert last_response.not_found?
   end
+  # End GET /messages/:id tests
 
-  # GET /messages tests
+  # Start GET /messages tests
   def test_list_messages
     get '/messages'
     assert last_response.ok?
@@ -45,8 +46,9 @@ class AppTest < ApplicationTest
       id_index = message['id']
     end
   end
+  # End GET /messages tests
 
-  # POST /messages tests
+  # Start POST /messages tests
   def test_create_palindrome_message
     body = {
     	data: {
@@ -101,7 +103,24 @@ class AppTest < ApplicationTest
     post '/messages', body.to_json, 'CONTENT_TYPE' => 'application/json'
     assert last_response.unprocessable?
   end
+  # End POST /messages tests
 
+  # Start DELETE /messages tests
+  def test_delete_existing_message_id
+    content = 'test palindrome'
+    message = Message.create content: content, is_palindrome: Palindrome.palindrome?(content).to_s
+
+    delete "/messages/#{message.id}"
+    assert last_response.no_content?
+  end
+
+  def test_delete_unavailable_message_id
+    delete '/messages', id: -1
+    assert last_response.not_found?
+  end
+  # End DELETE /messages tests
+
+  # Message test helpers
   def verify_message record, message_body
     assert_equal 'messages', message_body['type']
     assert_equal record.id, message_body['id']

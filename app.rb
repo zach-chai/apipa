@@ -24,3 +24,10 @@ post '/messages' do
   headers 'Location' => "#{ENV['HOST']}/messages/#{message.id}"
   yajl :message, locals: { message: message }
 end
+
+delete '/messages/:id' do
+  message = Message[params[:id]]
+  halt 404 if message.nil?
+  message.delete
+  status 204
+end
