@@ -8,5 +8,8 @@ Ohm.redis = Redic.new(ENV['REDIS_URL'])
 # load models
 Dir[File.join(__dir__, 'models', '*.rb')].each { |file| require file }
 
+# load lib
+Dir[File.join(__dir__, 'lib', '*.rb')].each { |file| require file }
+
 # load app file
 require File.expand_path('../app.rb', __FILE__)

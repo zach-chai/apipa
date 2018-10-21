@@ -18,7 +18,7 @@ post '/messages' do
   body = JSON.parse request.body.read
   content = body['data']['attributes']['content']
 
-  message = Message.create content: content
+  message = Message.create content: content, is_palindrome: Palindrome.palindrome?(content).to_s
 
   status 201
   yajl :message, locals: { message: message }
