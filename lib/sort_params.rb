@@ -19,6 +19,8 @@ class SortParams
     end
   end
 
+  private
+
   def parse raw_sort_param
     return [] unless raw_sort_param.is_a?(String)
 

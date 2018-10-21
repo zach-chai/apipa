@@ -23,8 +23,17 @@ end
 
 post '/messages' do
   request.body.rewind
-  body = JSON.parse request.body.read
-  content = body['data']['attributes']['content']
+  body = JSON.parse body request.body.read rescue nil
+  halt 422 unless body.is_a? Hash
+
+  content = body.dig('data', 'attributes', 'content')
+  halt 422 if content.nil?
+
+  message = Message.create content: content, is_palindrome: Palindrome.palindrome?(content).to_s
+
+  status 201
+  headers 'Location' => "#{ENV['HOST']}/messages/#{message.id}"
+  yajl :message, locals: { message: message }
 
   message = Message.create content: content, is_palindrome: Palindrome.palindrome?(content).to_s
 
