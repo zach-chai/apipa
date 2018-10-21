@@ -66,6 +66,7 @@ class AppTest < ApplicationTest
     assert_equal 'messages', data['type']
     assert_equal body[:data][:attributes][:content], data['attributes']['content']
     assert data['attributes']['is_palindrome']
+    assert_equal "#{ENV['HOST']}/messages/#{data['id']}", last_response.headers['Location']
   end
 
   def test_create_non_palindrome_message
