@@ -34,6 +34,18 @@ class AppTest < ApplicationTest
     end
   end
 
+  def test_list_messages_palindrome_filtering
+    get '/messages', filter: { is_palindrome: 'true' }
+    assert last_response.ok?
+
+    response_body = JSON.parse last_response.body
+    data = response_body['data']
+
+    data.each do |message|
+      assert_equal true, message.dig('attributes', 'is_palindrome')
+    end
+  end
+
   def test_list_messages_default_sorting
     get '/messages'
 

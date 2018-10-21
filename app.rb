@@ -3,7 +3,13 @@ get '/' do
 end
 
 get '/messages' do
-  messages = Message.all.sort order: 'ASC', limit: [0, 10]
+  messages = Message.all
+
+  if params.dig('filter', 'is_palindrome')
+    messages = messages.find is_palindrome: params.dig('filter', 'is_palindrome')
+  end
+
+  messages = messages.sort order: 'ASC', limit: [0, 10]
   yajl :messages, locals: { messages: messages }
 end
 
