@@ -9,7 +9,9 @@ get '/messages' do
     messages = messages.find is_palindrome: params.dig('filter', 'is_palindrome')
   end
 
-  messages = messages.sort order: 'ASC', limit: [0, 10]
+  # sort and paginate messages
+  messages = sort_and_paginate(messages, params)
+
   yajl :messages, locals: { messages: messages }
 end
 
@@ -36,4 +38,15 @@ delete '/messages/:id' do
   halt 404 if message.nil?
   message.delete
   status 204
+end
+
+def sort_and_paginate messages, params
+  sort, direction = SortParams.new(Message::SORT_ATTRIBUTES)
+                          .process(params['sort'])
+                          .values_at(:sort_by, :direction)
+  if sort == SortParams::DEFAULT_SORT
+    messages.sort order: direction, limit: Pagination.process_offset(params['page'])
+  else
+    messages.sort_by sort, order: "ALPHA #{direction}", limit: Pagination.process_offset(params['page'])
+  end
 end
