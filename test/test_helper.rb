@@ -1,7 +1,7 @@
 # test_helper.rb
 ENV['RACK_ENV'] = 'test'
 
-require File.expand_path '../../boot.rb', __FILE__
+require File.expand_path '../boot.rb', __dir__
 
 require 'minitest/autorun'
 require 'rack/test'
@@ -11,8 +11,5 @@ class ApplicationTest < MiniTest::Spec
 
   def app
     Sinatra::Application
-  end
-
-  def setup
   end
 end

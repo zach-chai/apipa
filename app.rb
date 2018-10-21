@@ -34,12 +34,6 @@ post '/messages' do
   status 201
   headers 'Location' => "#{ENV['HOST']}/messages/#{message.id}"
   yajl :message, locals: { message: message }
-
-  message = Message.create content: content, is_palindrome: Palindrome.palindrome?(content).to_s
-
-  status 201
-  headers 'Location' => "#{ENV['HOST']}/messages/#{message.id}"
-  yajl :message, locals: { message: message }
 end
 
 delete '/messages/:id' do
@@ -49,13 +43,15 @@ delete '/messages/:id' do
   status 204
 end
 
-def sort_and_paginate messages, params
+def sort_and_paginate(messages, params)
   sort, direction = SortParams.new(Message::SORT_ATTRIBUTES)
-                          .process(params['sort'])
-                          .values_at(:sort_by, :direction)
+                              .process(params['sort'])
+                              .values_at(:sort_by, :direction)
   if sort == SortParams::DEFAULT_SORT
-    messages.sort order: direction, limit: Pagination.process_offset(params['page'])
+    opts = { order: direction, limit: Pagination.process_offset(params['page']) }
+    messages.sort opts
   else
-    messages.sort_by sort, order: "ALPHA #{direction}", limit: Pagination.process_offset(params['page'])
+    opts = { order: "ALPHA #{direction}", limit: Pagination.process_offset(params['page']) }
+    messages.sort_by sort, opts
   end
 end

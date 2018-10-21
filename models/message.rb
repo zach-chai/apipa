@@ -3,5 +3,5 @@ class Message < Ohm::Model
   attribute :is_palindrome
   index :is_palindrome
 
-  SORT_ATTRIBUTES = ['id', 'is_palindrome']
+  SORT_ATTRIBUTES = %w[id is_palindrome].freeze
 end

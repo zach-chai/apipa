@@ -1,0 +1,36 @@
+Style/Tab:
+  Enabled: false
+
+Layout/IndentHash:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Metrics/MethodLength:
+  Exclude:
+    - 'test/app_test.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'test/app_test.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/app_test.rb'
+
+# TODO
+Style/RescueModifier:
+  Enabled: false

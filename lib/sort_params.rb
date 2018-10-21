@@ -1,15 +1,15 @@
 class SortParams
-  DEFAULT_SORT = 'id'
-  DEFAULT_DIRECTION_PARAMS = ['ASC', 'DESC']
+  DEFAULT_SORT = 'id'.freeze
+  DEFAULT_DIRECTION_PARAMS = %w[ASC DESC].freeze
 
   attr_reader :sort_attributes, :direction_params
 
-  def initialize sort_attributes, direction_params = DEFAULT_DIRECTION_PARAMS
+  def initialize(sort_attributes, direction_params = DEFAULT_DIRECTION_PARAMS)
     @sort_attributes = sort_attributes
     @direction_params = direction_params
   end
 
-  def process raw_sort_param
+  def process(raw_sort_param)
     sort_params = parse raw_sort_param
     sort_params = sort_params.select { |sort_param| sort_attributes.include? sort_param[:sort_by] }
     if sort_params.first.nil?
@@ -21,7 +21,7 @@ class SortParams
 
   private
 
-  def parse raw_sort_param
+  def parse(raw_sort_param)
     return [] unless raw_sort_param.is_a?(String)
 
     sort_array = []

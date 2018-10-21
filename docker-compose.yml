@@ -11,6 +11,7 @@ services:
     environment:
       - RACK_ENV=development
       - REDIS_URL=redis://redis:6379
+      - HOST=localhost:4567
     ports:
       - '4567:4567'
     depends_on: [ redis ]

@@ -3,10 +3,11 @@ source 'https://rubygems.org'
 gem 'sinatra', require: false
 gem 'thin'
 gem 'ohm'
-gem "yajl-ruby"
+gem 'yajl-ruby'
 
 group :test, :development do
   gem 'byebug'
+  gem 'rubocop'
 end
 
 group :test do

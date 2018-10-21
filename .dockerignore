@@ -1,0 +1,5 @@
+README.md
+.gitignore
+
+# Ignore Byebug command history file.
+.byebug_history

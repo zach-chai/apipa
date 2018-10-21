@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AppTest < ApplicationTest
-
   # Start GET /messages/:id tests
   def test_get_existing_message_id
     id = 1
@@ -85,12 +84,10 @@ class AppTest < ApplicationTest
 
   def test_create_non_palindrome_message
     body = {
-    	data: {
-    		type: 'messages',
-    		attributes: {
-    			content: 'not palindrome'
-    		}
-    	}
+      data: {
+    	  type: 'messages',
+    	  attributes: { content: 'not palindrome' }
+      }
     }
 
     post '/messages', body.to_json, 'CONTENT_TYPE' => 'application/json'
@@ -133,7 +130,7 @@ class AppTest < ApplicationTest
   # End DELETE /messages tests
 
   # Message test helpers
-  def verify_message record, message_body
+  def verify_message(record, message_body)
     assert_equal 'messages', message_body['type']
     assert_equal record.id, message_body['id']
     assert_equal record.content, message_body['attributes']['content']

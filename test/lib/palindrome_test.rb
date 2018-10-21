@@ -9,7 +9,7 @@ PALINDROME_CASES = [[true, 'apipa'],
                     [false, ''],
                     [true, 'deed'],
                     [false, true],
-                    [false, 1221]]
+                    [false, 1221]].freeze
 
 class PalindromeTest < ApplicationTest
   def test_palindrome
@@ -18,7 +18,9 @@ class PalindromeTest < ApplicationTest
     end
   end
 
-  def verify_palindrome expected, input
-    assert_equal expected, Palindrome.palindrome?(input), "Expected '#{input}' to return #{expected}"
+  def verify_palindrome(expected, input)
+    assert_equal expected,
+                 Palindrome.palindrome?(input),
+                 "Expected '#{input}' to return #{expected}"
   end
 end

@@ -1,14 +1,13 @@
 module Palindrome
-  def palindrome? string
+  def palindrome?(string)
     return false if !string.is_a?(String) || string.empty?
 
     left = 0
     right = string.length - 1
 
     while left < right
-      if string[left] != string[right]
-        return false
-      end
+      return false if string[left] != string[right]
+
       left += 1
       right -= 1
     end
