@@ -1,5 +1,12 @@
-FROM ruby:2.5.1
+FROM apipa_base:latest
 
-ENV APP_HOME=/opt/app
-RUN mkdir -p ${APP_HOME}
-WORKDIR ${APP_HOME}
+ENV RACK_ENV=production
+
+# Install dependencies
+COPY Gemfile* ${APP_HOME}/
+RUN bundle install --deployment --without=development test
+
+# Add code
+ADD . ${APP_HOME}
+
+CMD [ "bundle", "exec", "rackup" ]

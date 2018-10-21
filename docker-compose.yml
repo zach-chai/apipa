@@ -4,14 +4,11 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    image: apipa_base:latest
     volumes:
       - '.:/opt/app'
       - gem_cache:/usr/local/bundle
-    environment:
-      - RACK_ENV=development
-      - REDIS_URL=redis://redis:6379
-      - HOST=localhost:4567
     ports:
       - '4567:4567'
     depends_on: [ redis ]
