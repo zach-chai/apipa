@@ -1,0 +1,136 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: APIPA
+host: palindrome-service.herokuapp.com
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/vnd.api+json
+produces:
+  - application/vnd.api+json
+paths:
+  /messages:
+    get:
+      summary: List all messages
+      operationId: listMessages
+      tags:
+        - messages
+      parameters:
+        - name: page[offset]
+          in: query
+          description: Index to start the current page of records
+          type: integer
+          default: 0
+        - name: page[limit]
+          in: query
+          description: Number of records return (max 100)
+          type: integer
+          default: 10
+        - name: filter[is_palindrome]
+          in: query
+          description: Filter palindrome or non-palindrome messages
+          type: boolean
+        - name: sort
+          in: query
+          description: Sort messages
+          type: string
+          enum: ['id', '-id', 'is_palindrome', '-is_palindrome']
+      responses:
+        200:
+          description: A paged array of messages
+          schema:
+            $ref: '#/definitions/MessagesData'
+    post:
+      summary: Create a message
+      operationId: createMessage
+      tags:
+        - messages
+      parameters:
+        - name: payload
+          in: body
+          description: Payload containing the message data
+          required: true
+          schema:
+            $ref: '#/definitions/MessageData'
+      responses:
+        201:
+          description: Message was created successfully
+          schema:
+            $ref: '#/definitions/MessageData'
+  /messages/{id}:
+    get:
+      summary: Info for a specific message
+      operationId: showMessageById
+      tags:
+        - messages
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the message to retrieve
+          type: string
+      responses:
+        200:
+          description: A single message
+          schema:
+            $ref: '#/definitions/MessageData'
+        404:
+          description: Message not found
+    delete:
+      summary: Delete a specific message
+      operationId: deleteMessage
+      tags:
+        - messages
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the message to retrieve
+          type: string
+      responses:
+        204:
+          description: Message deleted successfully
+        404:
+          description: Message not found
+definitions:
+  Message:
+    required:
+      - type
+      - attributes
+    properties:
+      type:
+        type: string
+        enum: ['messages']
+      id:
+        type: integer
+        readOnly: true
+      attributes:
+        type: object
+        required:
+          - content
+        properties:
+          content:
+            type: string
+          is_palindrome:
+            type: boolean
+            readOnly: true
+  Messages:
+    type: array
+    items:
+      $ref: '#/definitions/Message'
+  MessageData:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        $ref: '#/definitions/Message'
+  MessagesData:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        $ref: '#/definitions/Messages'
