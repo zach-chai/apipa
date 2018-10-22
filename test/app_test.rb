@@ -6,6 +6,7 @@ class AppTest < ApplicationTest
     id = 1
     get "/messages/#{id}"
     assert last_response.ok?
+    assert_equal 'application/vnd.api+json', last_response.headers['Content-Type']
 
     response_body = JSON.parse last_response.body
     data = response_body['data']
@@ -24,6 +25,7 @@ class AppTest < ApplicationTest
   def test_list_messages
     get '/messages'
     assert last_response.ok?
+    assert_equal 'application/vnd.api+json', last_response.headers['Content-Type']
 
     response_body = JSON.parse last_response.body
     data = response_body['data']
@@ -70,8 +72,9 @@ class AppTest < ApplicationTest
     	}
     }
 
-    post '/messages', body.to_json, 'CONTENT_TYPE' => 'application/json'
+    post '/messages', body.to_json, 'CONTENT_TYPE' => AppConstants::CONTENT_TYPE
     assert last_response.created?
+    assert_equal 'application/vnd.api+json', last_response.headers['Content-Type']
 
     response_body = JSON.parse last_response.body
     data = response_body['data']
@@ -90,7 +93,7 @@ class AppTest < ApplicationTest
       }
     }
 
-    post '/messages', body.to_json, 'CONTENT_TYPE' => 'application/json'
+    post '/messages', body.to_json, 'CONTENT_TYPE' => AppConstants::CONTENT_TYPE
     assert last_response.created?
 
     response_body = JSON.parse last_response.body
@@ -109,7 +112,22 @@ class AppTest < ApplicationTest
       }
     }
 
-    post '/messages', body.to_json, 'CONTENT_TYPE' => 'application/json'
+    post '/messages', body.to_json, 'CONTENT_TYPE' => AppConstants::CONTENT_TYPE
+    assert last_response.unprocessable?
+  end
+
+  def test_invalid_content_type
+    post '/messages', '{}', 'CONTENT_TYPE' => "#{AppConstants::CONTENT_TYPE}; version=2"
+    assert_equal 415, last_response.status
+  end
+
+  def test_invalid_json_document
+    post '/messages', 'invalid_doc', 'CONTENT_TYPE' => AppConstants::CONTENT_TYPE
+    assert last_response.bad_request?
+  end
+
+  def test_empty_payload
+    post '/messages', nil, 'CONTENT_TYPE' => AppConstants::CONTENT_TYPE
     assert last_response.unprocessable?
   end
   # End POST /messages tests

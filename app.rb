@@ -25,11 +25,7 @@ end
 
 # Create message
 post '/messages' do
-  request.body.rewind
-  body = JSON.parse body request.body.read rescue nil
-  halt 422 unless body.is_a? Hash
-
-  content = body.dig('data', 'attributes', 'content')
+  content = @request_body.dig('data', 'attributes', 'content')
   halt 422 if content.nil?
 
   message = Message.create content: content, is_palindrome: Palindrome.palindrome?(content).to_s
@@ -48,4 +44,29 @@ end
 before '/messages/:id' do
   @message = Message[params[:id]]
   halt 404 if @message.nil?
+end
+
+before do
+  next unless %w[POST PUT PATCH].include? request.request_method
+
+  request.body.rewind
+  raw_request_body = request.body.read
+  if raw_request_body.empty?
+    @request_body = {}
+    next
+  end
+
+  @request_body = begin
+                    JSON.parse raw_request_body
+                  rescue JSON::ParserError
+                    halt 400
+                  end
+
+  # Check Content-Type for support
+  halt 415 if request.media_type != AppConstants::CONTENT_TYPE || request.media_type_params.any?
+end
+
+before do
+  next unless %w[GET POST].include? request.request_method
+  content_type AppConstants::CONTENT_TYPE
 end
