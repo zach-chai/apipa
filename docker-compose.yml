@@ -12,7 +12,6 @@ services:
     ports:
       - '4567:4567'
     depends_on: [ redis ]
-    command: ./server.sh
     stdin_open: true
     tty: true
 
