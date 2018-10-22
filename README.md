@@ -8,6 +8,12 @@ This is a Rack-compatible application written in Ruby with Sinatra, and uses Red
 
 ![Architecture Diagram](https://gist.githubusercontent.com/zach-chai/aa0b1aa7121cdbe175e8ccc0705f56c5/raw/05e5dcea4c0d3eb64cc85b38b827c8cb0fa68070/app_architecture.jpg)
 
+## API Documentation
+
+The API documentation uses Open API Specification.
+
+You can view the [docs here](https://petstore.swagger.io/?url=https://palindrome-service.herokuapp.com/spec.yaml)
+
 ## Development Setup
 Install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 
