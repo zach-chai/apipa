@@ -1,25 +1,14 @@
 require 'test_helper'
 
 class AppTest < ApplicationTest
-  # Start GET /messages/:id tests
-  def test_get_existing_message_id
-    id = 1
-    get "/messages/#{id}"
+  def test_root
+    get '/'
     assert last_response.ok?
     assert_equal 'application/vnd.api+json', last_response.headers['Content-Type']
 
     response_body = JSON.parse last_response.body
-    data = response_body['data']
-
-    verify_message Message[data['id']], data
+    response_body['jsonapi']['version'] = '1.0'
   end
-
-  def test_get_unavailable_message_id
-    id = -1
-    get "/messages/#{id}"
-    assert last_response.not_found?
-  end
-  # End GET /messages/:id tests
 
   # Start GET /messages tests
   def test_list_messages
@@ -72,6 +61,28 @@ class AppTest < ApplicationTest
     end
   end
   # End GET /messages tests
+
+  # Start GET /messages/:id tests
+  def test_get_existing_message_id
+    id = Message.all.first&.id
+    return if id.nil?
+
+    get "/messages/#{id}"
+    assert last_response.ok?
+    assert_equal 'application/vnd.api+json', last_response.headers['Content-Type']
+
+    response_body = JSON.parse last_response.body
+    data = response_body['data']
+
+    verify_message Message[data['id']], data
+  end
+
+  def test_get_unavailable_message_id
+    id = -1
+    get "/messages/#{id}"
+    assert last_response.not_found?
+  end
+  # End GET /messages/:id tests
 
   # Start POST /messages tests
   def test_create_palindrome_message
