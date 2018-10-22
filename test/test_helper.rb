@@ -1,6 +1,9 @@
 # test_helper.rb
 ENV['RACK_ENV'] = 'test'
 
+require 'simplecov'
+SimpleCov.start
+
 require File.expand_path '../boot.rb', __dir__
 
 require 'minitest/autorun'

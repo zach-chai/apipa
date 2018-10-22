@@ -37,7 +37,6 @@ class AppTest < ApplicationTest
 
   def test_list_messages_palindrome_filtering
     get '/messages', filter: { is_palindrome: 'true' }
-    assert last_response.ok?
 
     response_body = JSON.parse last_response.body
     data = response_body['data']
@@ -57,6 +56,21 @@ class AppTest < ApplicationTest
     data.each do |message|
       assert id_index < message['id']
       id_index = message['id']
+    end
+  end
+
+  def test_list_messages_palindrome_sorting
+    get '/messages', sort: 'is_palindrome'
+
+    response_body = JSON.parse last_response.body
+    data = response_body['data']
+
+    values = [true, false]
+    data.each do |message|
+      assert values.include? message.dig('attributes', 'is_palindrome')
+      if message.dig('attributes', 'is_palindrome')
+        values = [true]
+      end
     end
   end
   # End GET /messages tests
@@ -82,7 +96,7 @@ class AppTest < ApplicationTest
     assert_equal 'messages', data['type']
     assert_equal body[:data][:attributes][:content], data['attributes']['content']
     assert data['attributes']['is_palindrome']
-    assert_equal "#{HOST}/messages/#{data['id']}", last_response.headers['Location']
+    assert_equal "localhost:4567/messages/#{data['id']}", last_response.headers['Location']
   end
 
   def test_create_non_palindrome_message

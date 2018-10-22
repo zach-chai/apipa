@@ -31,7 +31,7 @@ post '/messages' do
   message = Message.create content: content, is_palindrome: Palindrome.palindrome?(content).to_s
 
   status 201
-  headers 'Location' => "#{HOST}/messages/#{message.id}"
+  headers 'Location' => "#{settings.host}/messages/#{message.id}"
   yajl :message, locals: { message: message }
 end
 

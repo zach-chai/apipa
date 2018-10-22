@@ -3,8 +3,8 @@ require 'sinatra'
 
 Bundler.require(:default, Sinatra::Base.settings.environment)
 
-HOST = ENV.fetch('HOST', 'localhost:4567').freeze
-Ohm.redis = Redic.new(ENV.fetch('REDIS_URL', 'redis://redis:6379'))
+# load config
+Dir[File.join(__dir__, 'config', '*.rb')].each { |file| require file }
 
 # load models
 Dir[File.join(__dir__, 'models', '*.rb')].each { |file| require file }
