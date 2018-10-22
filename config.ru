@@ -1,3 +1,3 @@
-require File.expand_path 'boot.rb', __dir__
+require File.join __dir__, 'config', 'boot.rb'
 
-Sinatra::Application.run!
+run App

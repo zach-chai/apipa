@@ -12,10 +12,9 @@ services:
     ports:
       - '4567:4567'
     depends_on: [ redis ]
-    command: bundle exec rackup
+    command: ./server.sh
     stdin_open: true
     tty: true
-
 
   redis:
     image: redis:4.0

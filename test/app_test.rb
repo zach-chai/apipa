@@ -68,9 +68,7 @@ class AppTest < ApplicationTest
     values = [true, false]
     data.each do |message|
       assert values.include? message.dig('attributes', 'is_palindrome')
-      if message.dig('attributes', 'is_palindrome')
-        values = [true]
-      end
+      values = [true] if message.dig('attributes', 'is_palindrome')
     end
   end
   # End GET /messages tests

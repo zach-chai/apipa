@@ -9,4 +9,4 @@ RUN bundle install --deployment --without=development test
 # Add code
 ADD . ${APP_HOME}
 
-CMD [ "bundle", "exec", "rackup" ]
+CMD [ "server.sh" ]
