@@ -1,3 +1,9 @@
+AllCops:
+  TargetRubyVersion: 2.5.1
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Style/Tab:
   Enabled: false
 
@@ -19,6 +25,9 @@ Layout/EmptyLineAfterGuardClause:
 Bundler/OrderedGems:
   Enabled: false
 
+Style/BlockDelimiters:
+  Enabled: false
+
 Metrics/MethodLength:
   Exclude:
     - 'test/app_test.rb'
@@ -34,3 +43,7 @@ Metrics/ClassLength:
 # TODO
 Style/RescueModifier:
   Enabled: false
+
+Style/PreferredHashMethods:
+  Exclude:
+    - 'lib/extensions/thin/response.rb'

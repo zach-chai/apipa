@@ -3,6 +3,10 @@ class App < Sinatra::Application
     yajl :index
   end
 
+  options '/messages' do
+    status 200
+  end
+
   # List stored messages
   get '/messages' do
     messages = Message.all
