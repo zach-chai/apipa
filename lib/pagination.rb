@@ -4,8 +4,8 @@ module Pagination
   MAX_LIMIT = 100
 
   def process_offset(offset_range)
-    page_start = offset_range['offset'].to_i rescue DEFAULT_OFFSET
-    page_limit = offset_range['limit'].to_i rescue DEFAULT_LIMIT
+    page_start = Integer(offset_range['offset']) rescue DEFAULT_OFFSET
+    page_limit = Integer(offset_range['limit']) rescue DEFAULT_LIMIT
 
     page_limit = [page_limit, MAX_LIMIT].min
     [page_start, page_limit]

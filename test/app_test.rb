@@ -60,6 +60,26 @@ class AppTest < ApplicationTest
       values = [true] if message.dig('attributes', 'is_palindrome')
     end
   end
+
+  def test_list_messages_pagination_limit
+    get '/messages', page: { limit: '1' }
+    response_body = JSON.parse last_response.body
+    data = response_body['data']
+
+    unless data.empty?
+      data.length.must_equal 1
+    end
+  end
+
+  def test_list_messages_pagination_offset
+    get '/messages', page: { offset: '1' }
+    response_body = JSON.parse last_response.body
+    data = response_body['data']
+
+    unless data.empty?
+      assert_equal Message.all[2].id, data[2]['id']
+    end
+  end
   # End GET /messages tests
 
   # Start GET /messages/:id tests
