@@ -1,5 +1,5 @@
-App.set(:public_url, ENV.fetch('PUBLIC_URL') {
-  if App.settings.environment == 'production'
+Base.set(:public_url, ENV.fetch('PUBLIC_URL') {
+  if Base.settings.environment == 'production'
     ''
   else
     'localhost:4567'

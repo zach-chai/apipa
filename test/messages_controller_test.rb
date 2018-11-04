@@ -1,15 +1,6 @@
 require 'test_helper'
 
-class AppTest < ApplicationTest
-  def test_root
-    get '/'
-    assert last_response.ok?
-    assert_equal 'application/vnd.api+json', last_response.headers['Content-Type']
-
-    response_body = JSON.parse last_response.body
-    response_body['jsonapi']['version'] = '1.0'
-  end
-
+class MessagesControllerTest < ApplicationTest
   # Start GET /messages tests
   def test_list_messages
     get '/messages'
@@ -77,7 +68,7 @@ class AppTest < ApplicationTest
     data = response_body['data']
 
     unless data.empty?
-      assert_equal Message.all[2].id, data[2]['id']
+      assert_equal Message.all[2].id, data[0]['id']
     end
   end
   # End GET /messages tests
@@ -196,5 +187,9 @@ class AppTest < ApplicationTest
     assert_equal record.id, message_body['id']
     assert_equal record.content, message_body['attributes']['content']
     assert_equal record.is_palindrome == 'true', message_body['attributes']['is_palindrome']
+  end
+
+  def app
+    MessagesController
   end
 end

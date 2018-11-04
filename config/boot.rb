@@ -9,7 +9,10 @@ Dir[File.join(__dir__, '..', 'lib', '**', '*.rb')].each { |file| require file }
 # load models
 Dir[File.join(__dir__, '..', 'models', '*.rb')].each { |file| require file }
 
-# load app file
+# load controllers
+Dir[File.join(__dir__, '..', 'controllers', '*.rb')].each { |file| require file }
+
+# load app
 require File.join __dir__, '..', 'app.rb'
 
 # load config

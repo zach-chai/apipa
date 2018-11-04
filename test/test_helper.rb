@@ -13,6 +13,6 @@ class ApplicationTest < MiniTest::Spec
   include Rack::Test::Methods
 
   def app
-    App
+    raise 'Implement app method for test class'
   end
 end
