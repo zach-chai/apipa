@@ -58,6 +58,7 @@ Install Heroku CLI, then setup with following commands.
 ```bash
 heroku login
 heroku git:remote --app <heroku_app>
+heroku container:login
 ```
 Build and deploy app
 ```bash
